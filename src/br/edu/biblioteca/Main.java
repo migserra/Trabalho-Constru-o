@@ -1,53 +1,88 @@
 package br.edu.biblioteca;
 
+import br.edu.biblioteca.action.AcaoCadastrarLivro;
+import br.edu.biblioteca.action.AcaoEmpresta;
 import br.edu.biblioteca.model.Livro;
 import br.edu.biblioteca.model.Usuario;
+import br.edu.biblioteca.repository.LivroRepository;
 import br.edu.biblioteca.service.CatalogoService;
 import br.edu.biblioteca.service.UsuarioService;
+import br.edu.biblioteca.ui.MenuPrincipal;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        // Serviços
-        CatalogoService catalogo = new CatalogoService();
-        UsuarioService usuarioService = new UsuarioService();
+        System.out.println("=== SISTEMA DE BIBLIOTECA ===\n");
 
-        // Criando livro
+        // TESTE UI
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.exibir();
+
+        System.out.println();
+
+        // TESTE MODEL + SERVICE
+        CatalogoService catalogo = new CatalogoService();
+
         Livro livro1 = new Livro(
                 "123456",
-                "Java Orientado a Objetos",
+                "Java Básico",
                 2025
         );
 
         Livro livro2 = new Livro(
-                "789101",
+                "654321",
                 "Estruturas de Dados",
                 2024
         );
 
-        // Cadastrando livros
         catalogo.cadastrarLivro(livro1);
         catalogo.cadastrarLivro(livro2);
 
-        // Criando usuário
-        Usuario usuario1 = new Usuario(
+        System.out.println("\n=== LIVROS CADASTRADOS ===");
+        catalogo.listar();
+
+        System.out.println();
+
+        UsuarioService usuarioService = new UsuarioService();
+
+        Usuario usuario = new Usuario(
                 1,
                 "Miguel",
                 Usuario.Tipo.ALUNO,
                 "miguel@email.com"
         );
 
-        // Cadastrando usuário
-        usuarioService.cadastrarUsuario(usuario1);
-
-        // Exibindo dados
-        System.out.println("=== LIVROS CADASTRADOS ===");
-        catalogo.listar();
-
-        System.out.println();
+        usuarioService.cadastrarUsuario(usuario);
 
         System.out.println("=== USUÁRIOS CADASTRADOS ===");
         usuarioService.listar();
+
+        System.out.println();
+
+        // TESTE ACTION
+        AcaoCadastrarLivro acaoCadastro = new AcaoCadastrarLivro();
+
+        acaoCadastro.executar();
+
+        System.out.println(acaoCadastro.descricao());
+
+        System.out.println();
+
+        AcaoEmpresta acaoEmprestimo = new AcaoEmpresta();
+
+        acaoEmprestimo.executar();
+
+        System.out.println(acaoEmprestimo.descricao());
+
+        System.out.println();
+
+        // TESTE REPOSITORY
+        LivroRepository repositorio = new LivroRepository();
+
+        repositorio.salvar();
+        repositorio.carregar();
+
+        System.out.println("\n=== TESTES FINALIZADOS ===");
     }
 }
