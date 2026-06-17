@@ -7,6 +7,7 @@ public class Vetor<T> {
 
     public Vetor(int capacidade) {
         elementos = new Object[capacidade];
+        size = 0;
     }
 
     public void add(T elemento) {
@@ -15,5 +16,9 @@ public class Vetor<T> {
 
     public T get(int index) {
         return (T) elementos[index];
+    }
+
+    public int size() {
+        return size;
     }
 }
